@@ -1,0 +1,15 @@
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+
+.playersContainer {
+  display: flex;
+}
+

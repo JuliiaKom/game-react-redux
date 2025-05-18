@@ -1,0 +1,30 @@
+.panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 1);
+    font-size: 1rem;
+  
+    border-bottom: 1px solid rgba(69, 69, 69, 1);
+    width: 100%;
+  }
+  
+  .player {
+    font-size: 20px;
+  }
+  
+  .score {
+    font-size: 32px;
+  }
+  
+  .resetButton {
+    padding: 0.5rem 1rem;
+    background-color:rgba(0, 174, 28, 1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  

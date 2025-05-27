@@ -4,6 +4,8 @@ import { sendMessage } from '../features/chatSlice';
 import css from './ChatBox.module.scss';
 import xChutIcon from '../icons/xChut.png';
 import oChutIcon from '../icons/oChut.png';
+import { PLAYER_X, PLAYER_O } from '../constants/constants';
+import MessagesList from './MessagesList';
 
 const ChatBox = ({ player }) => {
   const dispatch = useDispatch();
@@ -14,8 +16,8 @@ const ChatBox = ({ player }) => {
     if (text.trim()) {
       const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       dispatch(sendMessage({
-        sender: player === 'X' ? 1 : 2,
-        text: text,
+        sender: player === 'X' ? PLAYER_X : PLAYER_O,
+        text,
         time: currentTime,
       }));
       setText('');
@@ -40,20 +42,21 @@ const ChatBox = ({ player }) => {
 
         </div>
 
-        Player {player === 'X' ? 1 : 2}
+        Player {player === 'X' ?  PLAYER_X : PLAYER_O}
 
       </div>
 
-      <div className={css.messages} ref={messagesContainerRef}>
+      {/* <div className={css.messages} ref={messagesContainerRef}>
         {messages.map((msg, idx) => (
-          <div key={idx} className={`${css.message} ${msg.sender === 1 ? css.fromPlayer1 : css.fromPlayer2}`}>
+          <div key={idx} className={`${css.message} ${msg.sender === PLAYER_X ? css.fromPlayer1 : css.fromPlayer2}`}>
             <div className={css.text}>
               {msg.text}
               <div className={css.time}>{msg.time}</div>
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+       <MessagesList messages={messages} ref={messagesContainerRef} />
 
       <div className={css.input}>
         <input

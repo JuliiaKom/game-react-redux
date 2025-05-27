@@ -4,12 +4,11 @@ const chatSlice = createSlice({
   name: 'chat',
   initialState: [],
   reducers: {
-    sendMessage: (state, action) => {
-      state.push({ ...action.payload });
+    sendMessage: (state, { payload }) => {
+      state.push({ payload });
     },
-    clearChat: () => {
-      return [];
-    }
+
+    clearChat: () => [],
   },
 });
 

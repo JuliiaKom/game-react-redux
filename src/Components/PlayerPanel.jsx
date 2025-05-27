@@ -4,30 +4,9 @@ import ChatBox from './ChatBox';
 import css from './PlayerPanel.module.scss';
 import CircleIcon from '../icons/o.png';
 import CrossIcon from '../icons/Vector.png';
+import { getStatusMessage } from '../features/gameUtils';
+import { GAME_STATUS } from '../constants/gameMessages';
 
-function getStatusMessage({ status, board, winningLine, freeze, currentPlayer, player }) {
-  const isMyTurn = currentPlayer === player && !freeze;
-  const isGameWon = status === 'won';
-  const isDraw = board.every(cell => cell) && !winningLine;
-
-  if (isGameWon) {
-    return player === currentPlayer ? 'You win!' : 'You lost!';
-  }
-
-  if (isDraw) {
-    return 'Draw';
-  }
-
-  if (freeze && !isMyTurn) {
-    return 'Game started! Wait your opponent.';
-  }
-
-  if (isMyTurn) {
-    return 'Your turn:';
-  }
-
-  return 'Wait your opponent.';
-}
 
 const PlayerPanel = ({ player }) => {
   const dispatch = useDispatch();
@@ -44,6 +23,17 @@ const PlayerPanel = ({ player }) => {
 
   const statusMessage = getStatusMessage({ status, board, winningLine, freeze, currentPlayer, player });
 
+
+  // status message
+  let messageClass = css.neutralMessage;
+  if (status === GAME_STATUS.WON) {
+    if (player === currentPlayer) {
+      messageClass = css.winMessage;
+    } else {
+      messageClass = css.loseMessage;
+    }
+  }
+
   // Cell click handler
   const handleClick = (index) => {
     if (isMyTurn) {
@@ -54,52 +44,12 @@ const PlayerPanel = ({ player }) => {
   return (
     <div className={css.playerPanel}>
       <div className={css.playerHeader}>
-        <p
-          className={`${css.statusMessage} ${status === 'won'
-            ? player === currentPlayer
-              ? css.winMessage
-              : css.loseMessage
-            : css.neutralMessage
-            }`}
-        >
+        <p className={`${css.statusMessage} ${messageClass}`}>
           {statusMessage}
         </p>
-
       </div>
 
       <div className={css.board}>
-
-
-        {/* WIN LINE */}
-        {winningLine && (
-          <>
-            {[0, 1, 2].every(i => winningLine.includes(i)) && (
-              <div className={css.lineTop} />
-            )}
-            {[3, 4, 5].every(i => winningLine.includes(i)) && (
-              <div className={css.lineMiddle} />
-            )}
-            {[6, 7, 8].every(i => winningLine.includes(i)) && (
-              <div className={css.lineBottom} />
-            )}
-            {[0, 3, 6].every(i => winningLine.includes(i)) && (
-              <div className={css.lineLeft} />
-            )}
-            {[1, 4, 7].every(i => winningLine.includes(i)) && (
-              <div className={css.lineCenter} />
-            )}
-            {[2, 5, 8].every(i => winningLine.includes(i)) && (
-              <div className={css.lineRight} />
-            )}
-            {[0, 4, 8].every(i => winningLine.includes(i)) && (
-              <div className={css.lineDiagonalRight} />
-            )}
-            {[2, 4, 6].every(i => winningLine.includes(i)) && (
-              <div className={css.lineDiagonalLeft} />
-            )}
-          </>
-        )}
-
 
         {board.map((cell, i) => {
           const isWinningCell = winningLine?.includes(i);
